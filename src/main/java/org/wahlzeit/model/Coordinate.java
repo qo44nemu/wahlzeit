@@ -1,0 +1,51 @@
+package org.wahlzeit.model;
+
+public class Coordinate {
+    private double x;
+    private double y;
+    private double z;
+
+    public Coordinate(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Coordinate) {
+            return isEqual((Coordinate) object);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isEqual(Coordinate coordinate) {
+        if (this.getX() == coordinate.getX() &&
+                this.getY() == coordinate.getY() &&
+                this.getZ() == coordinate.getZ()) {
+            return true;
+        }
+        return false;
+    }
+
+    public double getDistance(Coordinate coordinate) {
+        double differenceX = Math.pow(this.getX() - coordinate.getX(), 2);
+        double differenceY = Math.pow(this.getY() - coordinate.getY(), 2);
+        double differenceZ = Math.pow(this.getZ() - coordinate.getZ(), 2);
+
+        return Math.sqrt(differenceX + differenceY + differenceZ);
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getZ() {
+        return z;
+    }
+}
