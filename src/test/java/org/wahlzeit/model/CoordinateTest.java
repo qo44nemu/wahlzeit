@@ -39,14 +39,28 @@ public class CoordinateTest {
     @Test
     public void testEqualsWithEqualCoordinates() {
         Coordinate equalCoordinate = new Coordinate(1, 2, 3);
-        boolean isEqual = coordinate.isEqual(equalCoordinate);
+        boolean isEqual = coordinate.equals(equalCoordinate);
         Assert.assertTrue(isEqual);
     }
 
     @Test
     public void testEqualsWithDifferentCoordinates() {
         Coordinate differentCoordinate = new Coordinate(1, 2, 4);
-        boolean isEqual = coordinate.isEqual(differentCoordinate);
+        boolean isEqual = coordinate.equals(differentCoordinate);
+        Assert.assertFalse(isEqual);
+    }
+
+    @Test
+    public void testEqualsWithDifferenceSmallerThanDelta() {
+        Coordinate differentCoordinate = new Coordinate(1, 2, 3.0000000009);
+        boolean isEqual = coordinate.equals(differentCoordinate);
+        Assert.assertTrue(isEqual);
+    }
+
+    @Test
+    public void testEqualsWithDifferenceEqualsDelta() {
+        Coordinate differentCoordinate = new Coordinate(1, 2, 3.000000001);
+        boolean isEqual = coordinate.equals(differentCoordinate);
         Assert.assertFalse(isEqual);
     }
 
@@ -54,5 +68,24 @@ public class CoordinateTest {
     public void testEqualsWithFalseObject() {
         boolean isEqual = coordinate.equals(new Object());
         Assert.assertFalse(isEqual);
+    }
+
+    @Test
+    public void testEqualsWithNull() {
+        //noinspection ConstantConditions
+        boolean isEqual = coordinate.equals(null);
+        Assert.assertFalse(isEqual);
+    }
+
+    @Test
+    public void testHashcodeWithEqualCoordinates() {
+        Coordinate differentCoordinate = new Coordinate(1, 2, 3);
+        Assert.assertEquals(coordinate.hashCode(), differentCoordinate.hashCode());
+    }
+
+    @Test
+    public void testHashcodeWithDifferentCoordinates() {
+        Coordinate differentCoordinate = new Coordinate(1, 2, 4);
+        Assert.assertNotEquals(coordinate.hashCode(), differentCoordinate.hashCode());
     }
 }
