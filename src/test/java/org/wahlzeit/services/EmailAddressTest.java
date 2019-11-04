@@ -21,50 +21,105 @@
 package org.wahlzeit.services;
 
 import junit.framework.TestCase;
+import org.junit.Assert;
+
+import javax.mail.internet.InternetAddress;
 
 /**
  * Test cases for the EmailAddress class.
  */
 public class EmailAddressTest extends TestCase {
 
-	/**
-	 *
-	 */
-	public EmailAddressTest(String name) {
-		super(name);
-	}
+    /**
+     *
+     */
+    public EmailAddressTest(String name) {
+        super(name);
+    }
 
-	/**
-	 *
-	 */
-	public void testGetEmailAddressFromString() {
-		// invalid email addresses are allowed for local testing and online avoided by Google
+    /**
+     *
+     */
+    private boolean createEmailAddressIgnoreException(String ea) {
+        try {
+            EmailAddress.getFromString(ea);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            // creation failed
+            return false;
+        }
+    }
 
-		assertTrue(createEmailAddressIgnoreException("bingo@bongo"));
-		assertTrue(createEmailAddressIgnoreException("bingo@bongo.com"));
-		assertTrue(createEmailAddressIgnoreException("bingo.bongo@bongo.com"));
-		assertTrue(createEmailAddressIgnoreException("bingo+bongo@bango"));
-	}
+    /**
+     *
+     */
+    public void testGetEmailAddressFromString() {
+        // invalid email addresses are allowed for local testing and online avoided by Google
 
-	/**
-	 *
-	 */
-	protected boolean createEmailAddressIgnoreException(String ea) {
-		try {
-			EmailAddress.getFromString(ea);
-			return true;
-		} catch (IllegalArgumentException ex) {
-			// creation failed
-			return false;
-		}
-	}
+        assertTrue(createEmailAddressIgnoreException("bingo@bongo"));
+        assertTrue(createEmailAddressIgnoreException("bingo@bongo.com"));
+        assertTrue(createEmailAddressIgnoreException("bingo.bongo@bongo.com"));
+        assertTrue(createEmailAddressIgnoreException("bingo+bongo@bango"));
+    }
 
-	/**
-	 *
-	 */
-	public void testEmptyEmailAddress() {
-		assertFalse(EmailAddress.EMPTY.isValid());
-	}
+    public void testAsString() {
+        String email = "test@test.de";
+        EmailAddress address = new EmailAddress(email);
+        Assert.assertEquals(address.asString(), email);
+    }
 
+    /**
+     *
+     */
+    public void testIsValidWithEmptyEmailAddress() {
+        assertFalse(EmailAddress.EMPTY.isValid());
+    }
+
+    public void testIsValidWithValidEmailAddress() {
+        EmailAddress address = new EmailAddress("test-email@test.de");
+        assertTrue(address.isValid());
+    }
+
+    public void testIsValidWithNewEmptyEmailAddress() {
+        EmailAddress address = new EmailAddress("");
+
+        // New empty email address is valid because isEmpty
+        // checks if objects are the same and not if contents are the same
+        assertTrue(address.isValid());
+    }
+
+    public void testIsEqualWithEqualEmails() {
+        EmailAddress address = new EmailAddress("test-email@test.de");
+        EmailAddress differentAddress = new EmailAddress("test-email@test.de");
+
+        // Equals returns false because objects are different
+        Assert.assertFalse(address.isEqual(differentAddress));
+    }
+
+    public void testIsEqualWithOneEmail() {
+        EmailAddress address = new EmailAddress("test-email@test.de");
+
+        // Equals returns true because objects are the same
+        Assert.assertTrue(address.isEqual(address));
+    }
+
+    public void testIsEqualWithDifferentEmails() {
+        EmailAddress address = new EmailAddress("test-email@test.de");
+        EmailAddress differentAddress = new EmailAddress("different-test-email@test.de");
+
+        Assert.assertFalse(address.isEqual(differentAddress));
+    }
+
+    public void testAsInternetAddressWithValidEmailAddress() {
+        EmailAddress address = new EmailAddress("test-address@test.de");
+        InternetAddress internetAddress = address.asInternetAddress();
+        Assert.assertNotNull(internetAddress);
+    }
+
+    public void testAsInternetAddressWithInvalidEmailAddress() {
+        EmailAddress address = new EmailAddress("test-address@test@.de");
+        InternetAddress internetAddress = address.asInternetAddress();
+        Assert.assertNull(internetAddress);
+    }
 }
 

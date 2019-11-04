@@ -35,7 +35,7 @@ public class EmailAddress implements Serializable {
 	/**
 	 *
 	 */
-	protected static final Map<String, EmailAddress> instances = new HashMap<String, EmailAddress>();
+	private static final Map<String, EmailAddress> instances = new HashMap<>();
 
 	/**
 	 *
@@ -67,7 +67,7 @@ public class EmailAddress implements Serializable {
 	/**
 	 *
 	 */
-	protected static EmailAddress doGetFromString(String myValue) {
+	private static EmailAddress doGetFromString(String myValue) {
 		EmailAddress result = instances.get(myValue);
 		if (result == null) {
 			synchronized (instances) {
@@ -122,8 +122,7 @@ public class EmailAddress implements Serializable {
 	/**
 	 *
 	 */
-	public boolean isEmpty() {
+	private boolean isEmpty() {
 		return this == EMPTY;
 	}
-
 }
