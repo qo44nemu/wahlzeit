@@ -20,22 +20,18 @@
 
 package org.wahlzeit.services;
 
-import junit.framework.TestCase;
 import org.junit.Assert;
+import org.junit.Test;
 
 import javax.mail.internet.InternetAddress;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test cases for the EmailAddress class.
  */
-public class EmailAddressTest extends TestCase {
-
-    /**
-     *
-     */
-    public EmailAddressTest(String name) {
-        super(name);
-    }
+public class EmailAddressTest {
 
     /**
      *
@@ -53,6 +49,7 @@ public class EmailAddressTest extends TestCase {
     /**
      *
      */
+    @Test
     public void testGetEmailAddressFromString() {
         // invalid email addresses are allowed for local testing and online avoided by Google
 
@@ -71,15 +68,19 @@ public class EmailAddressTest extends TestCase {
     /**
      *
      */
+    @Test
     public void testIsValidWithEmptyEmailAddress() {
+
         assertFalse(EmailAddress.EMPTY.isValid());
     }
 
+    @Test
     public void testIsValidWithValidEmailAddress() {
         EmailAddress address = new EmailAddress("test-email@test.de");
         assertTrue(address.isValid());
     }
 
+    @Test
     public void testIsValidWithNewEmptyEmailAddress() {
         EmailAddress address = new EmailAddress("");
 
@@ -88,6 +89,7 @@ public class EmailAddressTest extends TestCase {
         assertTrue(address.isValid());
     }
 
+    @Test
     public void testIsEqualWithEqualEmails() {
         EmailAddress address = new EmailAddress("test-email@test.de");
         EmailAddress differentAddress = new EmailAddress("test-email@test.de");
@@ -96,13 +98,15 @@ public class EmailAddressTest extends TestCase {
         Assert.assertFalse(address.isEqual(differentAddress));
     }
 
+    @Test
     public void testIsEqualWithOneEmail() {
         EmailAddress address = new EmailAddress("test-email@test.de");
 
         // Equals returns true because objects are the same
-        Assert.assertTrue(address.isEqual(address));
+        assertTrue(address.isEqual(address));
     }
 
+    @Test
     public void testIsEqualWithDifferentEmails() {
         EmailAddress address = new EmailAddress("test-email@test.de");
         EmailAddress differentAddress = new EmailAddress("different-test-email@test.de");
@@ -110,12 +114,14 @@ public class EmailAddressTest extends TestCase {
         Assert.assertFalse(address.isEqual(differentAddress));
     }
 
+    @Test
     public void testAsInternetAddressWithValidEmailAddress() {
         EmailAddress address = new EmailAddress("test-address@test.de");
         InternetAddress internetAddress = address.asInternetAddress();
         Assert.assertNotNull(internetAddress);
     }
 
+    @Test
     public void testAsInternetAddressWithInvalidEmailAddress() {
         EmailAddress address = new EmailAddress("test-address@test@.de");
         InternetAddress internetAddress = address.asInternetAddress();
