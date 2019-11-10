@@ -1,6 +1,6 @@
 package org.wahlzeit.model;
 
-public class Location {
+public class Location  {
     private Coordinate coordinate;
 
     public Location(Coordinate coordinate) {

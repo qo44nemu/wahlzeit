@@ -70,11 +70,6 @@ public class Photo extends DataObject {
 	protected PhotoId id = null;
 
     /**
-     * Location of the photo
-     */
-	private Location location;
-
-	/**
 	 *
 	 */
 	protected String ownerId;
@@ -153,14 +148,6 @@ public class Photo extends DataObject {
 		incWriteCount();
 	}
 
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
 	/**
 	 * @methodtype get
 	 */
@@ -235,7 +222,7 @@ public class Photo extends DataObject {
 	}
 
 	/**
-	 *
+	 * @methodtype get
 	 */
 	public Language getOwnerLanguage() {
 		return ownerLanguage;

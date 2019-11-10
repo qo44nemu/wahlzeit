@@ -66,7 +66,7 @@ public class PhotoManager extends ObjectManager {
 	 *
 	 */
 	public PhotoManager() {
-		photoTagCollector = PhotoFactory.getInstance().createPhotoTagCollector();
+		photoTagCollector = SoccerPhotoFactory.getInstance().createPhotoTagCollector();
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class PhotoManager extends ObjectManager {
 		Photo result = doGetPhotoFromId(id);
 
 		if (result == null) {
-			result = PhotoFactory.getInstance().loadPhoto(id);
+			result = SoccerPhotoFactory.getInstance().loadPhoto(id);
 			if (result != null) {
 				doAddPhoto(result);
 			}
