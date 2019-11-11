@@ -59,7 +59,7 @@ dependencies {
 
 test {
     filter {
-        includeTestsMatching "org.wahlzeit.testSuits.AllTests"
+        includeTestsMatching "org.wahlzeit.AllTests"
     }
     testLogging {
             events "passed", "skipped", "failed"
