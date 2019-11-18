@@ -4,62 +4,62 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CoordinateTest {
-    private Coordinate coordinate;
+public class CartesianCoordinateTest {
+    private CartesianCoordinate coordinate;
 
     @Before
     public void setUp() {
-        coordinate = new Coordinate(1, 2, 3);
+        coordinate = new CartesianCoordinate(1, 2, 3);
     }
 
     @Test
     public void testGetDistanceWithPositiveCoordinates() {
-        Coordinate newCoordinate = new Coordinate(1, 2, 5);
-        double distance = coordinate.getDistance(newCoordinate);
+        CartesianCoordinate newCoordinate = new CartesianCoordinate(1, 2, 5);
+        double distance = coordinate.getCartesianDistance(newCoordinate);
 
         Assert.assertEquals(2, distance, 0.0);
     }
 
     @Test
     public void testGetDistanceWithNegativeCoordinates() {
-        Coordinate newCoordinate = new Coordinate(-1, -2, -1);
-        double distance = coordinate.getDistance(newCoordinate);
+        CartesianCoordinate newCoordinate = new CartesianCoordinate(-1, -2, -1);
+        double distance = coordinate.getCartesianDistance(newCoordinate);
 
         Assert.assertEquals(6, distance, 0.0);
     }
 
     @Test
     public void testGetDistanceWithEqualCoordinates() {
-        Coordinate newCoordinate = new Coordinate(1, 2, 3);
-        double distance = coordinate.getDistance(newCoordinate);
+        CartesianCoordinate newCoordinate = new CartesianCoordinate(1, 2, 3);
+        double distance = coordinate.getCartesianDistance(newCoordinate);
 
         Assert.assertEquals(0, distance, 0.0);
     }
 
     @Test
     public void testEqualsWithEqualCoordinates() {
-        Coordinate equalCoordinate = new Coordinate(1, 2, 3);
+        CartesianCoordinate equalCoordinate = new CartesianCoordinate(1, 2, 3);
         boolean isEqual = coordinate.equals(equalCoordinate);
         Assert.assertTrue(isEqual);
     }
 
     @Test
     public void testEqualsWithDifferentCoordinates() {
-        Coordinate differentCoordinate = new Coordinate(1, 2, 4);
+        CartesianCoordinate differentCoordinate = new CartesianCoordinate(1, 2, 4);
         boolean isEqual = coordinate.equals(differentCoordinate);
         Assert.assertFalse(isEqual);
     }
 
     @Test
     public void testEqualsWithDifferenceSmallerThanDelta() {
-        Coordinate differentCoordinate = new Coordinate(1, 2, 3.0000000009);
+        CartesianCoordinate differentCoordinate = new CartesianCoordinate(1, 2, 3.0000000009);
         boolean isEqual = coordinate.equals(differentCoordinate);
         Assert.assertTrue(isEqual);
     }
 
     @Test
     public void testEqualsWithDifferenceEqualsDelta() {
-        Coordinate differentCoordinate = new Coordinate(1, 2, 3.000000001);
+        CartesianCoordinate differentCoordinate = new CartesianCoordinate(1, 2, 3.000000001);
         boolean isEqual = coordinate.equals(differentCoordinate);
         Assert.assertFalse(isEqual);
     }
@@ -79,13 +79,28 @@ public class CoordinateTest {
 
     @Test
     public void testHashcodeWithEqualCoordinates() {
-        Coordinate differentCoordinate = new Coordinate(1, 2, 3);
+        CartesianCoordinate differentCoordinate = new CartesianCoordinate(1, 2, 3);
         Assert.assertEquals(coordinate.hashCode(), differentCoordinate.hashCode());
     }
 
     @Test
     public void testHashcodeWithDifferentCoordinates() {
-        Coordinate differentCoordinate = new Coordinate(1, 2, 4);
+        CartesianCoordinate differentCoordinate = new CartesianCoordinate(1, 2, 4);
         Assert.assertNotEquals(coordinate.hashCode(), differentCoordinate.hashCode());
+    }
+
+    @Test
+    public void testIsEqualWithDifferentCoordinateTypesSuccessfully() {
+        SphericalCoordinate sphericalCoordinate = coordinate.asSphericalCoordinate();
+        boolean isEqual = coordinate.equals(sphericalCoordinate);
+        Assert.assertTrue(isEqual);
+    }
+
+    @Test
+    public void testIsEqualWithDifferentCoordinateTypesFailed() {
+        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(2, 3, 4);
+        SphericalCoordinate sphericalCoordinate = coordinate.asSphericalCoordinate();
+        boolean isEqual = cartesianCoordinate.equals(sphericalCoordinate);
+        Assert.assertFalse(isEqual);
     }
 }

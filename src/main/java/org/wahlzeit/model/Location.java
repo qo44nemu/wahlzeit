@@ -1,17 +1,17 @@
 package org.wahlzeit.model;
 
-public class Location  {
-    private Coordinate coordinate;
+public class Location {
+    private ICoordinate coordinate;
 
-    public Location(Coordinate coordinate) {
+    public Location(ICoordinate coordinate) {
         this.coordinate = coordinate;
     }
 
-    public Coordinate getCoordinate() {
+    public ICoordinate getCoordinate() {
         return coordinate;
     }
 
-    public void setCoordinate(Coordinate coordinate) {
+    public void setCoordinate(ICoordinate coordinate) {
         this.coordinate = coordinate;
     }
 
