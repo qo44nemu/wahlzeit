@@ -2,7 +2,7 @@ package org.wahlzeit.model;
 
 import java.util.Objects;
 
-public class SphericalCoordinate implements ICoordinate {
+public class SphericalCoordinate extends AbstractCoordinate {
     private double phi;
     private double theta;
     private double radius;
@@ -14,11 +14,7 @@ public class SphericalCoordinate implements ICoordinate {
     }
 
     @Override
-    public CartesianCoordinate asCartesianCoordinate() {
-      /*  double x = radius * Math.sin(theta) * Math.cos(phi);
-        double y = radius * Math.sin(theta) * Math.sin(phi);
-        double z = radius * Math.cos(theta);
-        return new CartesianCoordinate(x, y, z);*/
+    protected CartesianCoordinate doAsCartesianCoordinate() {
         double x = radius * Math.sin(theta) * Math.cos(phi);
         double y = radius * Math.sin(theta) * Math.sin(phi);
         double z = radius * Math.cos(theta);
@@ -27,17 +23,17 @@ public class SphericalCoordinate implements ICoordinate {
     }
 
     @Override
-    public double getCartesianDistance(ICoordinate coordinate) {
-        return this.asCartesianCoordinate().getCartesianDistance(coordinate.asCartesianCoordinate());
-    }
-
-    @Override
-    public SphericalCoordinate asSphericalCoordinate() {
+    protected SphericalCoordinate doAsSphericalCoordinate() {
         return this;
     }
 
     @Override
-    public double getCentralAngle(ICoordinate coordinate) {
+    protected double doGetCartesianDistance(ICoordinate coordinate) {
+        return this.asCartesianCoordinate().getCartesianDistance(coordinate.asCartesianCoordinate());
+    }
+
+    @Override
+    protected double doGetCentralAngle(ICoordinate coordinate) {
         return Math.acos((Math.sin(phi) *
                 Math.sin(coordinate.asSphericalCoordinate().getPhi()) + Math.cos(phi) *
                 Math.cos(coordinate.asSphericalCoordinate().getPhi()) *
@@ -45,24 +41,10 @@ public class SphericalCoordinate implements ICoordinate {
     }
 
     @Override
-    public boolean isEqual(ICoordinate coordinate) {
+    protected boolean doIsEqual(ICoordinate coordinate) {
         return compareDoubles(this.getPhi(), coordinate.asSphericalCoordinate().getPhi()) &&
                 compareDoubles(this.getTheta(), coordinate.asSphericalCoordinate().getTheta()) &&
                 compareDoubles(this.getRadius(), coordinate.asSphericalCoordinate().getRadius());
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof ICoordinate)) {
-            return false;
-        }
-
-        return isEqual((ICoordinate) object);
-    }
-
-    private boolean compareDoubles(double firstValue, double secondValue) {
-        double precision = 0.000000001;
-        return Math.abs(firstValue - secondValue) < precision;
     }
 
     private double getPhi() {
