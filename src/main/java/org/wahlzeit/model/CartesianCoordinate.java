@@ -11,6 +11,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
         this.x = x;
         this.y = y;
         this.z = z;
+        assertClassInvariants();
     }
 
     @Override
@@ -51,6 +52,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
                 compareDoubles(this.getY(), coordinate.asCartesianCoordinate().getY()) &&
                 compareDoubles(this.getZ(), coordinate.asCartesianCoordinate().getZ());
 
+    }
+
+    @Override
+    protected void doAssertClassInvariants() {
+        assert !Double.isNaN(getX());
+        assert !Double.isNaN(getY());
+        assert !Double.isNaN(getZ());
     }
 
     private double getX() {

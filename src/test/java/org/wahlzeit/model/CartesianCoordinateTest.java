@@ -103,4 +103,24 @@ public class CartesianCoordinateTest {
         boolean isEqual = cartesianCoordinate.equals(sphericalCoordinate);
         Assert.assertFalse(isEqual);
     }
+
+    @Test(expected = AssertionError.class)
+    public void testCartesianCoordinatesWithXIsNaN() {
+        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(Double.NaN, 0, 0);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testCartesianCoordinatesWithXYIsNaN() {
+        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(0, Double.NaN, 0);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testCartesianCoordinatesWithZIsNaN() {
+        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(0, 0, Double.NaN);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testGetDistanceWithNull() {
+        coordinate.getCartesianDistance(null);
+    }
 }

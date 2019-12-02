@@ -11,6 +11,7 @@ public class SphericalCoordinate extends AbstractCoordinate {
         this.phi = phi;
         this.theta = theta;
         this.radius = radius;
+        assertClassInvariants();
     }
 
     @Override
@@ -45,6 +46,37 @@ public class SphericalCoordinate extends AbstractCoordinate {
         return compareDoubles(this.getPhi(), coordinate.asSphericalCoordinate().getPhi()) &&
                 compareDoubles(this.getTheta(), coordinate.asSphericalCoordinate().getTheta()) &&
                 compareDoubles(this.getRadius(), coordinate.asSphericalCoordinate().getRadius());
+    }
+
+    @Override
+    protected void doAssertClassInvariants() {
+        assert isPhiValid(getPhi());
+        assert isThetaValid(getTheta());
+        assert isRadiusValid(getRadius());
+    }
+
+    /*
+      Wertebereiche für Sphärische Koordinaten https://universaldenker.de/formeln/650
+   */
+    private boolean isPhiValid(double phi) {
+        if (phi < 0 || phi > (2 * Math.PI)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isThetaValid(double theta) {
+        if (theta < 0 || theta > Math.PI) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isRadiusValid(double radius) {
+        if (radius < 0) {
+            return false;
+        }
+        return true;
     }
 
     private double getPhi() {
