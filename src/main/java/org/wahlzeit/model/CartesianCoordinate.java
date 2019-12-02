@@ -7,11 +7,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
     private double y;
     private double z;
 
-    public CartesianCoordinate(double x, double y, double z) {
+    public CartesianCoordinate(double x, double y, double z) throws IllegalArgumentException {
+        assertIsNotNaN(x);
+        assertIsNotNaN(y);
+        assertIsNotNaN(z);
         this.x = x;
         this.y = y;
         this.z = z;
-        assertClassInvariants();
     }
 
     @Override
@@ -54,11 +56,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
     }
 
-    @Override
-    protected void doAssertClassInvariants() {
-        assert !Double.isNaN(getX());
-        assert !Double.isNaN(getY());
-        assert !Double.isNaN(getZ());
+    private void assertIsNotNaN(double value) throws IllegalArgumentException {
+        if (Double.isNaN(value)) {
+            throw new IllegalArgumentException("Value can not be Not a Number!");
+        }
     }
 
     private double getX() {

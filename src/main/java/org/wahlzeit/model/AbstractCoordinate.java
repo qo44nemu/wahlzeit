@@ -4,17 +4,11 @@ public abstract class AbstractCoordinate implements ICoordinate {
 
     @Override
     public CartesianCoordinate asCartesianCoordinate() {
-        CartesianCoordinate coordinate = doAsCartesianCoordinate();
-        /*
-        Check if result is valid
-         */
-        assertIsCoordinateValid(coordinate);
-
-        return coordinate;
+        return doAsCartesianCoordinate();
     }
 
     @Override
-    public double getCartesianDistance(ICoordinate coordinate) {
+    public double getCartesianDistance(ICoordinate coordinate) throws IllegalArgumentException, IllegalStateException {
         /*
         Check if parameter coordinate is valid
          */
@@ -29,16 +23,11 @@ public abstract class AbstractCoordinate implements ICoordinate {
 
     @Override
     public SphericalCoordinate asSphericalCoordinate() {
-        SphericalCoordinate coordinate = doAsSphericalCoordinate();
-        /*
-        Check if result is valid
-         */
-        assertIsCoordinateValid(coordinate);
-        return coordinate;
+        return doAsSphericalCoordinate();
     }
 
     @Override
-    public double getCentralAngle(ICoordinate coordinate) {
+    public double getCentralAngle(ICoordinate coordinate) throws IllegalArgumentException, IllegalStateException {
        /*
         Check if parameter coordinate is valid
          */
@@ -64,35 +53,33 @@ public abstract class AbstractCoordinate implements ICoordinate {
         return doIsEqual(coordinate);
     }
 
-    @Override
-    public void assertClassInvariants() {
-        doAssertClassInvariants();
-    }
 
     protected boolean compareDoubles(double firstValue, double secondValue) {
-        assert !Double.isNaN(firstValue);
-        assert !Double.isNaN(secondValue);
+        if (Double.isNaN(firstValue) || Double.isNaN(secondValue)) {
+            throw new IllegalArgumentException("Value can not be NaN!");
+        }
 
         double precision = 0.000000001;
         return Math.abs(firstValue - secondValue) < precision;
     }
 
     private void assertIsCoordinateValid(ICoordinate coordinate) {
-        assert coordinate != null;
+        if (coordinate == null) {
+            throw new IllegalArgumentException("Coordinate can not be null!");
+        }
     }
 
-    protected void assertIsDistanceValid(double distance) {
-        assert distance >= 0;
-        assert !Double.isNaN(distance);
+    protected void assertIsDistanceValid(double distance) throws IllegalStateException {
+        if (distance < 0 || Double.isNaN(distance)) {
+            throw new IllegalStateException("Invalid distance!");
+        }
     }
 
-    protected void assertIsCentralAngelValid(double centralAngel) {
-        assert centralAngel > 0 ;
-        assert centralAngel < (2 * Math.PI) ;
+    protected void assertIsCentralAngelValid(double centralAngel) throws IllegalStateException {
+        if (centralAngel < 0 || centralAngel > (2 * Math.PI) || Double.isNaN(centralAngel)) {
+            throw new IllegalStateException("Invalid distance!");
+        }
     }
-
-
-    protected abstract void doAssertClassInvariants();
 
     protected abstract CartesianCoordinate doAsCartesianCoordinate();
 

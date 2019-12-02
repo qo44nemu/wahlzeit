@@ -7,11 +7,13 @@ public class SphericalCoordinate extends AbstractCoordinate {
     private double theta;
     private double radius;
 
-    public SphericalCoordinate(double phi, double theta, double radius) {
+    public SphericalCoordinate(double phi, double theta, double radius) throws IllegalArgumentException {
+        assertPhiIsValid(phi);
+        assertThetaIsValid(theta);
+        assertRadiusIsValid(radius);
         this.phi = phi;
         this.theta = theta;
         this.radius = radius;
-        assertClassInvariants();
     }
 
     @Override
@@ -48,35 +50,25 @@ public class SphericalCoordinate extends AbstractCoordinate {
                 compareDoubles(this.getRadius(), coordinate.asSphericalCoordinate().getRadius());
     }
 
-    @Override
-    protected void doAssertClassInvariants() {
-        assert isPhiValid(getPhi());
-        assert isThetaValid(getTheta());
-        assert isRadiusValid(getRadius());
-    }
-
     /*
       Wertebereiche für Sphärische Koordinaten https://universaldenker.de/formeln/650
    */
-    private boolean isPhiValid(double phi) {
+    private void assertPhiIsValid(double phi) throws IllegalArgumentException {
         if (phi < 0 || phi > (2 * Math.PI)) {
-            return false;
+            throw new IllegalArgumentException("Illegal value for phi");
         }
-        return true;
     }
 
-    private boolean isThetaValid(double theta) {
+    private void assertThetaIsValid(double theta) throws IllegalArgumentException {
         if (theta < 0 || theta > Math.PI) {
-            return false;
+            throw new IllegalArgumentException("Illegal value for theta");
         }
-        return true;
     }
 
-    private boolean isRadiusValid(double radius) {
+    private void assertRadiusIsValid(double radius) throws IllegalArgumentException {
         if (radius < 0) {
-            return false;
+            throw new IllegalArgumentException("Illegal value for radius");
         }
-        return true;
     }
 
     private double getPhi() {

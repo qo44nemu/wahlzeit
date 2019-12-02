@@ -89,24 +89,24 @@ public class SphericalCoordinateTest {
         Assert.assertEquals(1.40, centralAngle, 0.001);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSphericalCoordinateWithInvalidRadius() {
         SphericalCoordinate sphericalCoordinateBerlin = new SphericalCoordinate(Math.toRadians(52.517), Math.toRadians(13.40), -1);
 
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSphericalCoordinateWithInvalidPhi() {
         SphericalCoordinate sphericalCoordinateBerlin = new SphericalCoordinate(Math.PI * 3, Math.toRadians(13.40), 6360);
 
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSphericalCoordinateWithInvalidTheta() {
         SphericalCoordinate sphericalCoordinateBerlin = new SphericalCoordinate(Math.toRadians(52.517), Math.PI * 2, 6360);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testGetCentralAngelWithNull() {
         coordinate.getCentralAngle(null);
     }

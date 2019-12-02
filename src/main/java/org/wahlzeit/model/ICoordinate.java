@@ -10,6 +10,4 @@ public interface ICoordinate {
     public double getCentralAngle(ICoordinate coordinate);
 
     public boolean isEqual(ICoordinate coordinate);
-
-    public void assertClassInvariants();
 }
