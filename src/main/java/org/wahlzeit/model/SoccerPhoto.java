@@ -5,23 +5,25 @@ import com.googlecode.objectify.annotation.Entity;
 @Entity
 public class SoccerPhoto extends Photo {
 
-    public static final String FORENAME = "forename";
+    private String forename;
+    private String surname;
+    private String club;
 
-    String forename;
-    String surname;
-    String club;
-
+    private Location location;
 
     public SoccerPhoto() {
         super();
     }
 
-    public SoccerPhoto(PhotoId id) {
+    public SoccerPhoto(PhotoId id) throws IllegalArgumentException {
         super(id);
     }
 
-    public SoccerPhoto(PhotoId id, String forename, String surname, String club) {
+    public SoccerPhoto(PhotoId id, String forename, String surname, String club) throws IllegalArgumentException {
         super(id);
+        assertStringNotNullNotEmpty(forename);
+        assertStringNotNullNotEmpty(surname);
+        assertStringNotNullNotEmpty(club);
         this.forename = forename;
         this.surname = surname;
         this.club = club;
@@ -31,7 +33,8 @@ public class SoccerPhoto extends Photo {
         return forename;
     }
 
-    public void setForename(String forename) {
+    public void setForename(String forename) throws IllegalArgumentException {
+        assertStringNotNullNotEmpty(forename);
         this.forename = forename;
     }
 
@@ -39,7 +42,8 @@ public class SoccerPhoto extends Photo {
         return surname;
     }
 
-    public void setSurname(String surname) {
+    public void setSurname(String surname) throws IllegalArgumentException {
+        assertStringNotNullNotEmpty(surname);
         this.surname = surname;
     }
 
@@ -47,8 +51,20 @@ public class SoccerPhoto extends Photo {
         return club;
     }
 
-    public void setClub(String club) {
+    public void setClub(String club) throws IllegalArgumentException {
+        assertStringNotNullNotEmpty(club);
         this.club = club;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) throws IllegalArgumentException {
+        if (location == null) {
+            throw new IllegalArgumentException("Location can not be null!");
+        }
+        this.location = location;
     }
 
 }

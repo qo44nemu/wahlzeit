@@ -40,382 +40,417 @@ import java.util.Map;
 @Entity
 public class Photo extends DataObject {
 
-	/**
-	 *
-	 */
-	public static final String IMAGE = "image";
-	public static final String THUMB = "thumb";
-	public static final String LINK = "link";
-	public static final String PRAISE = "praise";
-	public static final String NO_VOTES = "noVotes";
-	public static final String CAPTION = "caption";
-	public static final String DESCRIPTION = "description";
-	public static final String KEYWORDS = "keywords";
+    /**
+     *
+     */
+    public static final String IMAGE = "image";
+    public static final String THUMB = "thumb";
+    public static final String LINK = "link";
+    public static final String PRAISE = "praise";
+    public static final String NO_VOTES = "noVotes";
+    public static final String CAPTION = "caption";
+    public static final String DESCRIPTION = "description";
+    public static final String KEYWORDS = "keywords";
 
-	public static final String TAGS = "tags";
-	public static final String OWNER_ID = "ownerId";
+    public static final String TAGS = "tags";
+    public static final String OWNER_ID = "ownerId";
 
-	public static final String STATUS = "status";
-	public static final String IS_INVISIBLE = "isInvisible";
-	public static final String UPLOADED_ON = "uploadedOn";
-
-	/**
-	 *
-	 */
-	public static final int MAX_PHOTO_WIDTH = 420;
-	public static final int MAX_PHOTO_HEIGHT = 600;
-	public static final int MAX_THUMB_PHOTO_WIDTH = 105;
-	public static final int MAX_THUMB_PHOTO_HEIGHT = 150;
-
-	protected PhotoId id = null;
+    public static final String STATUS = "status";
+    public static final String IS_INVISIBLE = "isInvisible";
+    public static final String UPLOADED_ON = "uploadedOn";
 
     /**
-	 *
-	 */
-	protected String ownerId;
+     *
+     */
+    public static final int MAX_PHOTO_WIDTH = 420;
+    public static final int MAX_PHOTO_HEIGHT = 600;
+    public static final int MAX_THUMB_PHOTO_WIDTH = 105;
+    public static final int MAX_THUMB_PHOTO_HEIGHT = 150;
 
-	/**
-	 * Each photo can be viewed in different sizes (XS, S, M, L, XL)
-	 * Images are pre-computed in these sizes to optimize bandwidth when requested.
-	 */
-	@Ignore
-	transient protected Map<PhotoSize, Image> images = new ArrayMap<PhotoSize, Image>();
+    protected PhotoId id = null;
 
-	/**
-	 *
-	 */
-	protected boolean ownerNotifyAboutPraise = false;
-	protected EmailAddress ownerEmailAddress = EmailAddress.EMPTY;
-	protected Language ownerLanguage = Language.ENGLISH;
+    /**
+     *
+     */
+    protected String ownerId;
 
-	/**
-	 *
-	 */
-	protected int width;
-	protected int height;
-	protected PhotoSize maxPhotoSize = PhotoSize.MEDIUM; // derived
+    /**
+     * Each photo can be viewed in different sizes (XS, S, M, L, XL)
+     * Images are pre-computed in these sizes to optimize bandwidth when requested.
+     */
+    @Ignore
+    transient protected Map<PhotoSize, Image> images = new ArrayMap<PhotoSize, Image>();
 
-	/**
-	 *
-	 */
-	protected Tags tags = Tags.EMPTY_TAGS;
+    /**
+     *
+     */
+    protected boolean ownerNotifyAboutPraise = false;
+    protected EmailAddress ownerEmailAddress = EmailAddress.EMPTY;
+    protected Language ownerLanguage = Language.ENGLISH;
 
-	/**
-	 *
-	 */
-	protected PhotoStatus status = PhotoStatus.VISIBLE;
+    /**
+     *
+     */
+    protected int width;
+    protected int height;
+    protected PhotoSize maxPhotoSize = PhotoSize.MEDIUM; // derived
 
-	/**
-	 *
-	 */
-	protected int praiseSum = 10;
-	protected int noVotes = 1;
-	protected int noVotesAtLastNotification = 1;
+    /**
+     *
+     */
+    protected Tags tags = Tags.EMPTY_TAGS;
 
-	/**
-	 *
-	 */
-	protected long creationTime = System.currentTimeMillis();
+    /**
+     *
+     */
+    protected PhotoStatus status = PhotoStatus.VISIBLE;
 
-	/**
-	 * The default type is jpg
-	 */
-	protected String ending = "jpg";
+    /**
+     *
+     */
+    protected int praiseSum = 10;
+    protected int noVotes = 1;
+    protected int noVotesAtLastNotification = 1;
 
-	/**
-	 *
-	 */
-	//TODO: change it to a single long
-	@Id
-	Long idLong;
-	@Parent
-	Key parent = ObjectManager.applicationRootKey;
+    /**
+     *
+     */
+    protected long creationTime = System.currentTimeMillis();
 
-	/**
-	 *
-	 */
-	public Photo() {
-		id = PhotoId.getNextId();
-		incWriteCount();
-	}
+    /**
+     * The default type is jpg
+     */
+    protected String ending = "jpg";
 
-	/**
-	 * @methodtype constructor
-	 */
-	public Photo(PhotoId myId) {
-		id = myId;
+    /**
+     *
+     */
+    //TODO: change it to a single long
+    @Id
+    Long idLong;
+    @Parent
+    Key parent = ObjectManager.applicationRootKey;
 
-		incWriteCount();
-	}
+    /**
+     *
+     */
+    public Photo() {
+        id = PhotoId.getNextId();
+        incWriteCount();
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public Image getImage(PhotoSize photoSize) {
-		return images.get(photoSize);
-	}
+    /**
+     * @methodtype constructor
+     */
+    public Photo(PhotoId myId) throws IllegalArgumentException {
+        assertValueNotNull(myId);
+        id = myId;
+        incWriteCount();
+    }
 
-	/**
-	 * @methodtype set
-	 */
-	public void setImage(PhotoSize photoSize, Image image) {
-		this.images.put(photoSize, image);
-	}
+    /**
+     * @methodtype get
+     */
+    public Image getImage(PhotoSize photoSize) throws IllegalArgumentException {
+        assertValueNotNull(photoSize);
 
-	/**
-	 * @methodtype get
-	 */
-	public String getIdAsString() {
-		return id.asString();
-	}
+        return images.get(photoSize);
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public PhotoId getId() {
-		return id;
-	}
+    /**
+     * @methodtype set
+     */
+    public void setImage(PhotoSize photoSize, Image image) throws IllegalArgumentException {
+        assertValueNotNull(photoSize);
+        assertValueNotNull(image);
 
-	/**
-	 * @methodtype get
-	 */
-	public String getOwnerId() {
-		return ownerId;
-	}
+        this.images.put(photoSize, image);
+    }
 
-	/**
-	 * @methodtype set
-	 */
-	public void setOwnerId(String newName) {
-		ownerId = newName;
-		incWriteCount();
-	}
+    /**
+     * @methodtype get
+     */
+    public String getIdAsString() {
+        return id.asString();
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public String getSummary(ModelConfig cfg) {
-		return cfg.asPhotoSummary(ownerId);
-	}
+    /**
+     * @methodtype get
+     */
+    public PhotoId getId() {
+        return id;
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public String getCaption(ModelConfig cfg) {
-		String ownerName = UserManager.getInstance().getUserById(ownerId).getNickName();
-		return cfg.asPhotoCaption(ownerName);
-	}
+    /**
+     * @methodtype get
+     */
+    public String getOwnerId() {
+        return ownerId;
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public boolean getOwnerNotifyAboutPraise() {
-		return ownerNotifyAboutPraise;
-	}
+    /**
+     * @methodtype set
+     */
+    public void setOwnerId(String newName) throws IllegalArgumentException {
+        assertStringNotNullNotEmpty(newName);
+        ownerId = newName;
+        incWriteCount();
+    }
 
-	/**
-	 * @methodtype set
-	 */
-	public void setOwnerNotifyAboutPraise(boolean newNotifyAboutPraise) {
-		ownerNotifyAboutPraise = newNotifyAboutPraise;
-		incWriteCount();
-	}
+    /**
+     * @methodtype get
+     */
+    public String getSummary(ModelConfig cfg) throws IllegalArgumentException {
+        assertValueNotNull(cfg);
 
-	/**
-	 * @methodtype get
-	 */
-	public Language getOwnerLanguage() {
-		return ownerLanguage;
-	}
+        return cfg.asPhotoSummary(ownerId);
+    }
 
-	/**
-	 *
-	 */
-	public void setOwnerLanguage(Language newLanguage) {
-		ownerLanguage = newLanguage;
-		incWriteCount();
-	}
+    /**
+     * @methodtype get
+     */
+    public String getCaption(ModelConfig cfg) throws IllegalArgumentException {
+        assertValueNotNull(cfg);
 
-	/**
-	 * @methodtype boolean-query
-	 */
-	public boolean hasSameOwner(Photo photo) {
-		return photo.getOwnerEmailAddress().equals(ownerEmailAddress);
-	}
+        String ownerName = UserManager.getInstance().getUserById(ownerId).getNickName();
+        return cfg.asPhotoCaption(ownerName);
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public EmailAddress getOwnerEmailAddress() {
-		return ownerEmailAddress;
-	}
+    /**
+     * @methodtype get
+     */
+    public boolean getOwnerNotifyAboutPraise() {
+        return ownerNotifyAboutPraise;
+    }
 
-	/**
-	 * @methodtype set
-	 */
-	public void setOwnerEmailAddress(EmailAddress newEmailAddress) {
-		ownerEmailAddress = newEmailAddress;
-		incWriteCount();
-	}
+    /**
+     * @methodtype set
+     */
+    public void setOwnerNotifyAboutPraise(boolean newNotifyAboutPraise) {
+        ownerNotifyAboutPraise = newNotifyAboutPraise;
+        incWriteCount();
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public int getWidth() {
-		return width;
-	}
+    /**
+     * @methodtype get
+     */
+    public Language getOwnerLanguage() {
+        return ownerLanguage;
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public int getHeight() {
-		return height;
-	}
+    /**
+     *
+     */
+    public void setOwnerLanguage(Language newLanguage) throws IllegalArgumentException {
+        assertValueNotNull(newLanguage);
 
-	/**
-	 * @methodtype get
-	 */
-	public int getThumbWidth() {
-		return isWiderThanHigher() ? MAX_THUMB_PHOTO_WIDTH : (width * MAX_THUMB_PHOTO_HEIGHT / height);
-	}
+        ownerLanguage = newLanguage;
+        incWriteCount();
+    }
 
-	/**
-	 * @methodtype boolean-query
-	 */
-	public boolean isWiderThanHigher() {
-		return (height * MAX_PHOTO_WIDTH) < (width * MAX_PHOTO_HEIGHT);
-	}
+    /**
+     * @methodtype boolean-query
+     */
+    public boolean hasSameOwner(Photo photo) throws IllegalArgumentException {
+        assertValueNotNull(photo);
 
-	/**
-	 * @methodtype get
-	 */
-	public int getThumbHeight() {
-		return isWiderThanHigher() ? (height * MAX_THUMB_PHOTO_WIDTH / width) : MAX_THUMB_PHOTO_HEIGHT;
-	}
+        return photo.getOwnerEmailAddress().equals(ownerEmailAddress);
+    }
 
-	/**
-	 * @methodtype set
-	 */
-	public void setWidthAndHeight(int newWidth, int newHeight) {
-		width = newWidth;
-		height = newHeight;
+    /**
+     * @methodtype get
+     */
+    public EmailAddress getOwnerEmailAddress() {
+        return ownerEmailAddress;
+    }
 
-		maxPhotoSize = PhotoSize.getFromWidthHeight(width, height);
+    /**
+     * @methodtype set
+     */
+    public void setOwnerEmailAddress(EmailAddress newEmailAddress) throws IllegalArgumentException {
+        assertValueNotNull(newEmailAddress);
+        ownerEmailAddress = newEmailAddress;
+        incWriteCount();
+    }
 
-		incWriteCount();
-	}
+    /**
+     * @methodtype get
+     */
+    public int getWidth() {
+        return width;
+    }
 
-	/**
-	 * Can this photo satisfy provided photo size?
-	 *
-	 * @methodtype boolean-query
-	 */
-	public boolean hasPhotoSize(PhotoSize size) {
-		return maxPhotoSize.asInt() >= size.asInt();
-	}
+    /**
+     * @methodtype get
+     */
+    public int getHeight() {
+        return height;
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public PhotoSize getMaxPhotoSize() {
-		return maxPhotoSize;
-	}
+    /**
+     * @methodtype get
+     */
+    public int getThumbWidth() {
+        return isWiderThanHigher() ? MAX_THUMB_PHOTO_WIDTH : (width * MAX_THUMB_PHOTO_HEIGHT / height);
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public String getPraiseAsString(ModelConfig cfg) {
-		return cfg.asPraiseString(getPraise());
-	}
+    /**
+     * @methodtype boolean-query
+     */
+    public boolean isWiderThanHigher() {
+        return (height * MAX_PHOTO_WIDTH) < (width * MAX_PHOTO_HEIGHT);
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public double getPraise() {
-		return (double) praiseSum / noVotes;
-	}
+    /**
+     * @methodtype get
+     */
+    public int getThumbHeight() {
+        return isWiderThanHigher() ? (height * MAX_THUMB_PHOTO_WIDTH / width) : MAX_THUMB_PHOTO_HEIGHT;
+    }
 
-	/**
-	 *
-	 */
-	public void addToPraise(int value) {
-		praiseSum += value;
-		noVotes += 1;
-		incWriteCount();
-	}
+    /**
+     * @methodtype set
+     */
+    public void setWidthAndHeight(int newWidth, int newHeight) {
+        width = newWidth;
+        height = newHeight;
 
-	/**
-	 * @methodtype boolean-query
-	 */
-	public boolean isVisible() {
-		return status.isDisplayable();
-	}
+        maxPhotoSize = PhotoSize.getFromWidthHeight(width, height);
 
-	/**
-	 * @methodtype get
-	 */
-	public PhotoStatus getStatus() {
-		return status;
-	}
+        incWriteCount();
+    }
 
-	/**
-	 * @methodtype set
-	 */
-	public void setStatus(PhotoStatus newStatus) {
-		status = newStatus;
-		incWriteCount();
-	}
+    /**
+     * Can this photo satisfy provided photo size?
+     *
+     * @methodtype boolean-query
+     */
+    public boolean hasPhotoSize(PhotoSize size) throws IllegalArgumentException {
+        assertValueNotNull(size);
 
-	/**
-	 * @methodtype boolean-query
-	 */
-	public boolean hasTag(String tag) {
-		return tags.hasTag(tag);
-	}
+        return maxPhotoSize.asInt() >= size.asInt();
+    }
 
-	/**
-	 * @methodtype get
-	 */
-	public Tags getTags() {
-		return tags;
-	}
+    /**
+     * @methodtype get
+     */
+    public PhotoSize getMaxPhotoSize() {
+        return maxPhotoSize;
+    }
 
-	/**
-	 * @methodtype set
-	 */
-	public void setTags(Tags newTags) {
-		tags = newTags;
-		incWriteCount();
-	}
+    /**
+     * @methodtype get
+     */
+    public String getPraiseAsString(ModelConfig cfg) throws IllegalArgumentException {
+        assertValueNotNull(cfg);
 
-	/**
-	 * @methodtype get
-	 */
-	public long getCreationTime() {
-		return creationTime;
-	}
+        return cfg.asPraiseString(getPraise());
+    }
+
+    /**
+     * @methodtype get
+     */
+    public double getPraise() {
+        return (double) praiseSum / noVotes;
+    }
+
+    /**
+     *
+     */
+    public void addToPraise(int value) {
+        praiseSum += value;
+        noVotes += 1;
+        incWriteCount();
+    }
+
+    /**
+     * @methodtype boolean-query
+     */
+    public boolean isVisible() {
+        return status.isDisplayable();
+    }
+
+    /**
+     * @methodtype get
+     */
+    public PhotoStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * @methodtype set
+     */
+    public void setStatus(PhotoStatus newStatus) {
+        assertValueNotNull(newStatus);
+        status = newStatus;
+        incWriteCount();
+    }
+
+    /**
+     * @methodtype boolean-query
+     */
+    public boolean hasTag(String tag) {
+        return tags.hasTag(tag);
+    }
+
+    /**
+     * @methodtype get
+     */
+    public Tags getTags() {
+        return tags;
+    }
+
+    /**
+     * @methodtype set
+     */
+    public void setTags(Tags newTags) {
+        tags = newTags;
+        incWriteCount();
+    }
+
+    /**
+     * @methodtype get
+     */
+    public long getCreationTime() {
+        return creationTime;
+    }
 
 
-	public String getEnding() {
-		return ending;
-	}
+    public String getEnding() {
+        return ending;
+    }
 
-	public void setEnding(String ending) {
-		this.ending = ending;
-	}
+    public void setEnding(String ending) {
+        this.ending = ending;
+    }
 
-	/**
-	 * @methodtype boolean query
-	 */
-	public boolean hasNewPraise() {
-		return noVotes > noVotesAtLastNotification;
-	}
+    /**
+     * @methodtype boolean query
+     */
+    public boolean hasNewPraise() {
+        return noVotes > noVotesAtLastNotification;
+    }
 
-	/**
-	 * @methodtype set
-	 */
-	public void setNoNewPraise() {
-		noVotesAtLastNotification = noVotes;
-		incWriteCount();
-	}
+    /**
+     * @methodtype set
+     */
+    public void setNoNewPraise() {
+        noVotesAtLastNotification = noVotes;
+        incWriteCount();
+    }
+
+    protected void assertValueNotNull(Object object) throws IllegalArgumentException {
+        if (object == null) {
+            throw new IllegalArgumentException("Parameter can not be null!");
+        }
+    }
+
+    protected void assertStringNotNullNotEmpty(String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("String can not be null!");
+        }
+        if (value.equals("")) {
+            throw new IllegalArgumentException("String can not be empty!");
+        }
+    }
 }
