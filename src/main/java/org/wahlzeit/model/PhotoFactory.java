@@ -82,7 +82,7 @@ public class PhotoFactory {
 	/**
 	 * Creates a new photo with the specified id
 	 */
-	public Photo createPhoto(PhotoId id) throws IllegalArgumentException  {
+	public Photo createPhoto(PhotoId id) {
 		return new Photo(id);
 	}
 
