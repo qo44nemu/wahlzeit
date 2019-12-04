@@ -1,4 +1,4 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.coordinate;
 
 public abstract class AbstractCoordinate implements ICoordinate {
 
@@ -52,7 +52,6 @@ public abstract class AbstractCoordinate implements ICoordinate {
     public boolean isEqual(ICoordinate coordinate) {
         return doIsEqual(coordinate);
     }
-
 
     protected boolean compareDoubles(double firstValue, double secondValue) {
         if (Double.isNaN(firstValue) || Double.isNaN(secondValue)) {

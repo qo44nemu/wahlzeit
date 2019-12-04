@@ -1,6 +1,9 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.soccerPhoto;
 
 import com.googlecode.objectify.annotation.Entity;
+import org.wahlzeit.model.Location;
+import org.wahlzeit.model.Photo;
+import org.wahlzeit.model.PhotoId;
 
 @Entity
 public class SoccerPhoto extends Photo {
@@ -11,15 +14,15 @@ public class SoccerPhoto extends Photo {
 
     private Location location;
 
-    public SoccerPhoto() {
+    SoccerPhoto() {
         super();
     }
 
-    public SoccerPhoto(PhotoId id) throws IllegalArgumentException {
+    SoccerPhoto(PhotoId id) throws IllegalArgumentException {
         super(id);
     }
 
-    public SoccerPhoto(PhotoId id, String forename, String surname, String club) throws IllegalArgumentException {
+    SoccerPhoto(PhotoId id, String forename, String surname, String club) throws IllegalArgumentException {
         super(id);
         assertStringNotNullNotEmpty(forename);
         assertStringNotNullNotEmpty(surname);
@@ -67,4 +70,13 @@ public class SoccerPhoto extends Photo {
         this.location = location;
     }
 
+    private void assertStringNotNullNotEmpty(String value) throws IllegalArgumentException {
+        if (value == null) {
+            throw new IllegalArgumentException("String can not be null");
+        }
+
+        if (value.equals("")) {
+            throw new IllegalArgumentException("String can not be empty");
+        }
+    }
 }

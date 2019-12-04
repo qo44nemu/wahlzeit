@@ -24,6 +24,7 @@ import com.google.appengine.api.images.Image;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Work;
 import org.wahlzeit.model.persistence.ImageStorage;
+import org.wahlzeit.model.soccerPhoto.SoccerPhotoFactory;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.services.ObjectManager;
 import org.wahlzeit.services.Persistent;
@@ -73,9 +74,6 @@ public class PhotoManager extends ObjectManager {
      *
      */
     public final boolean hasPhoto(String id) {
-        if (id == null) {
-            return false;
-        }
         return hasPhoto(PhotoId.getIdFromString(id));
     }
 
@@ -118,9 +116,6 @@ public class PhotoManager extends ObjectManager {
      * @methodproperties primitive
      */
     protected Photo doGetPhotoFromId(PhotoId id) {
-        if (id == null) {
-            return null;
-        }
         return photoCache.get(id);
     }
 
@@ -129,8 +124,6 @@ public class PhotoManager extends ObjectManager {
      * @methodproperties primitive
      */
     protected void doAddPhoto(Photo myPhoto) {
-        assertValueNotNull(myPhoto);
-
         photoCache.put(myPhoto.getId(), myPhoto);
     }
 
@@ -192,8 +185,6 @@ public class PhotoManager extends ObjectManager {
      * Loads all scaled Images of this Photo from Google Cloud Storage
      */
     protected void loadScaledImages(Photo photo) {
-        assertValueNotNull(photo);
-
         String photoIdAsString = photo.getId().asString();
         ImageStorage imageStorage = ImageStorage.getInstance();
 
@@ -255,8 +246,6 @@ public class PhotoManager extends ObjectManager {
      * the Datastore, it is simply not persisted.
      */
     protected void saveScaledImages(Photo photo) {
-        assertValueNotNull(photo);
-
         String photoIdAsString = photo.getId().asString();
         ImageStorage imageStorage = ImageStorage.getInstance();
         PhotoSize photoSize;
@@ -333,9 +322,7 @@ public class PhotoManager extends ObjectManager {
     /**
      *
      */
-    public Photo getVisiblePhoto(PhotoFilter filter) throws IllegalArgumentException {
-        assertValueNotNull(filter);
-
+    public Photo getVisiblePhoto(PhotoFilter filter) {
         filter.generateDisplayablePhotoIds();
         return getPhotoFromId(filter.getRandomDisplayablePhotoId());
     }
@@ -353,8 +340,7 @@ public class PhotoManager extends ObjectManager {
     /**
      * @methodtype command
      */
-    public void addPhoto(Photo photo) throws IllegalArgumentException, IOException {
-        assertValueNotNull(photo);
+    public void addPhoto(Photo photo) throws IOException {
         PhotoId id = photo.getId();
         assertIsNewPhoto(id);
         doAddPhoto(photo);
@@ -368,12 +354,6 @@ public class PhotoManager extends ObjectManager {
     protected void assertIsNewPhoto(PhotoId id) {
         if (hasPhoto(id)) {
             throw new IllegalStateException("Photo already exists!");
-        }
-    }
-
-    protected void assertValueNotNull(Object object) throws IllegalArgumentException {
-        if (object == null) {
-            throw new IllegalArgumentException("Parameter can not be null!");
         }
     }
 }

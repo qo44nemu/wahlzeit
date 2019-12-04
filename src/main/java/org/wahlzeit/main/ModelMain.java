@@ -25,6 +25,8 @@ import com.google.appengine.api.images.ImagesServiceFactory;
 import org.wahlzeit.model.*;
 import org.wahlzeit.model.persistence.DatastoreAdapter;
 import org.wahlzeit.model.persistence.ImageStorage;
+import org.wahlzeit.model.soccerPhoto.SoccerPhotoFactory;
+import org.wahlzeit.model.soccerPhoto.SoccerPhotoManager;
 import org.wahlzeit.services.LogBuilder;
 
 import java.io.File;

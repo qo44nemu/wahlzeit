@@ -6,6 +6,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
+import org.wahlzeit.model.soccerPhoto.SoccerPhoto;
+import org.wahlzeit.model.soccerPhoto.SoccerPhotoFactory;
 import org.wahlzeit.testEnvironmentProvider.*;
 
 public class SoccerPhotoFactoryTest {

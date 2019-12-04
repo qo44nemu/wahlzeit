@@ -22,6 +22,7 @@ package org.wahlzeit.handlers;
 
 import org.wahlzeit.main.ServiceMain;
 import org.wahlzeit.model.*;
+import org.wahlzeit.model.soccerPhoto.SoccerPhotoManager;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.utils.StringUtil;
 import org.wahlzeit.webparts.WebPart;
