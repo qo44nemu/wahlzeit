@@ -1,5 +1,7 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.soccer;
 
+import org.wahlzeit.model.PhotoFactory;
+import org.wahlzeit.model.PhotoId;
 import org.wahlzeit.services.LogBuilder;
 
 import java.util.logging.Logger;
@@ -56,11 +58,11 @@ public class SoccerPhotoFactory extends PhotoFactory {
     /**
      * Creates a new photo with the specified id
      */
-    public SoccerPhoto createPhoto(PhotoId id) {
+    public SoccerPhoto createPhoto(PhotoId id) throws IllegalArgumentException {
         return new SoccerPhoto(id);
     }
 
-    public SoccerPhoto createPhoto(PhotoId id, String forename, String surname, String club) {
+    public SoccerPhoto createPhoto(PhotoId id, String forename, String surname, String club) throws IllegalArgumentException {
         return new SoccerPhoto(id, forename, surname, club);
     }
 }

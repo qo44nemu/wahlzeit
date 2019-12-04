@@ -1,7 +1,7 @@
 package org.wahlzeit.agents;
 
 import org.wahlzeit.model.Photo;
-import org.wahlzeit.model.SoccerPhotoManager;
+import org.wahlzeit.model.soccer.SoccerPhotoManager;
 import org.wahlzeit.services.LogBuilder;
 
 import javax.servlet.ServletException;

@@ -1,4 +1,6 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.coordinate;
+
+import com.sun.istack.internal.NotNull;
 
 public abstract class AbstractCoordinate implements ICoordinate {
 
@@ -8,11 +10,7 @@ public abstract class AbstractCoordinate implements ICoordinate {
     }
 
     @Override
-    public double getCartesianDistance(ICoordinate coordinate) throws IllegalArgumentException, IllegalStateException {
-        /*
-        Check if parameter coordinate is valid
-         */
-        assertIsCoordinateValid(coordinate);
+    public double getCartesianDistance(@NotNull ICoordinate coordinate) {
         double distance = doGetCartesianDistance(coordinate);
         /*
         Check if distance is valid
@@ -27,11 +25,7 @@ public abstract class AbstractCoordinate implements ICoordinate {
     }
 
     @Override
-    public double getCentralAngle(ICoordinate coordinate) throws IllegalArgumentException, IllegalStateException {
-       /*
-        Check if parameter coordinate is valid
-         */
-        assertIsCoordinateValid(coordinate);
+    public double getCentralAngle(@NotNull ICoordinate coordinate) {
         double centralAngel = doGetCentralAngle(coordinate);
         /*
         Check if returned central angel is valid
@@ -53,7 +47,6 @@ public abstract class AbstractCoordinate implements ICoordinate {
         return doIsEqual(coordinate);
     }
 
-
     protected boolean compareDoubles(double firstValue, double secondValue) {
         if (Double.isNaN(firstValue) || Double.isNaN(secondValue)) {
             throw new IllegalArgumentException("Value can not be NaN!");
@@ -61,12 +54,6 @@ public abstract class AbstractCoordinate implements ICoordinate {
 
         double precision = 0.000000001;
         return Math.abs(firstValue - secondValue) < precision;
-    }
-
-    private void assertIsCoordinateValid(ICoordinate coordinate) {
-        if (coordinate == null) {
-            throw new IllegalArgumentException("Coordinate can not be null!");
-        }
     }
 
     protected void assertIsDistanceValid(double distance) throws IllegalStateException {

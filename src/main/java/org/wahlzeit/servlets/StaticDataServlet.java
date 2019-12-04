@@ -3,9 +3,8 @@ package org.wahlzeit.servlets;
 import com.google.appengine.api.images.Image;
 import org.apache.http.HttpStatus;
 import org.wahlzeit.model.Photo;
-import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.model.PhotoSize;
-import org.wahlzeit.model.SoccerPhotoManager;
+import org.wahlzeit.model.soccer.SoccerPhotoManager;
 import org.wahlzeit.model.persistence.ImageStorage;
 import org.wahlzeit.services.LogBuilder;
 

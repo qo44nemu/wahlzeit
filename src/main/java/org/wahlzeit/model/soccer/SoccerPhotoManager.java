@@ -1,4 +1,6 @@
-package org.wahlzeit.model;
+package org.wahlzeit.model.soccer;
+
+import org.wahlzeit.model.PhotoManager;
 
 public class SoccerPhotoManager extends PhotoManager {
 
