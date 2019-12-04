@@ -12,7 +12,7 @@ public abstract class AbstractCoordinate implements ICoordinate {
         /*
         Check if parameter coordinate is valid
          */
-        assertIsCoordinateValid(coordinate);
+        assertCoordinateIsNotNull(coordinate);
         double distance = doGetCartesianDistance(coordinate);
         /*
         Check if distance is valid
@@ -31,7 +31,7 @@ public abstract class AbstractCoordinate implements ICoordinate {
        /*
         Check if parameter coordinate is valid
          */
-        assertIsCoordinateValid(coordinate);
+        assertCoordinateIsNotNull(coordinate);
         double centralAngel = doGetCentralAngle(coordinate);
         /*
         Check if returned central angel is valid
@@ -63,7 +63,7 @@ public abstract class AbstractCoordinate implements ICoordinate {
         return Math.abs(firstValue - secondValue) < precision;
     }
 
-    private void assertIsCoordinateValid(ICoordinate coordinate) {
+    private void assertCoordinateIsNotNull(ICoordinate coordinate) {
         if (coordinate == null) {
             throw new IllegalArgumentException("Coordinate can not be null!");
         }

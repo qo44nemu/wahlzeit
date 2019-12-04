@@ -38,7 +38,7 @@ public class SoccerPhotoFactory extends PhotoFactory {
     /**
      * Method to set the singleton instance of PhotoFactory.
      */
-    protected static synchronized void setInstance(SoccerPhotoFactory soccerPhotoFactory) {
+    protected static synchronized void setInstance(SoccerPhotoFactory soccerPhotoFactory) throws IllegalStateException {
         if (instance != null) {
             throw new IllegalStateException("attempt to initalize SoccerPhotoFactory twice");
         }
