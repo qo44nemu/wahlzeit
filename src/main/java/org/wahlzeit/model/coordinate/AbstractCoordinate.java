@@ -1,7 +1,5 @@
 package org.wahlzeit.model.coordinate;
 
-import com.sun.istack.internal.NotNull;
-
 public abstract class AbstractCoordinate implements ICoordinate {
 
     @Override
@@ -10,7 +8,8 @@ public abstract class AbstractCoordinate implements ICoordinate {
     }
 
     @Override
-    public double getCartesianDistance(@NotNull ICoordinate coordinate) {
+    public double getCartesianDistance(ICoordinate coordinate) {
+        assertParameterIsNotNull(coordinate);
         double distance = doGetCartesianDistance(coordinate);
         /*
         Check if distance is valid
@@ -25,7 +24,8 @@ public abstract class AbstractCoordinate implements ICoordinate {
     }
 
     @Override
-    public double getCentralAngle(@NotNull ICoordinate coordinate) {
+    public double getCentralAngle(ICoordinate coordinate) {
+        assertParameterIsNotNull(coordinate);
         double centralAngel = doGetCentralAngle(coordinate);
         /*
         Check if returned central angel is valid
@@ -65,6 +65,12 @@ public abstract class AbstractCoordinate implements ICoordinate {
     protected void assertIsCentralAngelValid(double centralAngel) throws IllegalStateException {
         if (centralAngel < 0 || centralAngel > (2 * Math.PI) || Double.isNaN(centralAngel)) {
             throw new IllegalStateException("Invalid distance!");
+        }
+    }
+
+    protected void assertParameterIsNotNull(ICoordinate coordinate) throws IllegalArgumentException {
+        if (coordinate == null) {
+            throw new IllegalArgumentException("Coordinate can not be null!");
         }
     }
 
