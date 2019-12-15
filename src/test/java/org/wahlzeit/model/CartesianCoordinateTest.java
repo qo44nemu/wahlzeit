@@ -11,12 +11,12 @@ public class CartesianCoordinateTest {
 
     @Before
     public void setUp() {
-        coordinate = new CartesianCoordinate(1, 2, 3);
+        coordinate = CartesianCoordinate.getCoordinate(1, 2, 3);
     }
 
     @Test
     public void testGetDistanceWithPositiveCoordinates() {
-        CartesianCoordinate newCoordinate = new CartesianCoordinate(1, 2, 5);
+        CartesianCoordinate newCoordinate = CartesianCoordinate.getCoordinate(1, 2, 5);
         double distance = coordinate.getCartesianDistance(newCoordinate);
 
         Assert.assertEquals(2, distance, 0.0);
@@ -24,7 +24,7 @@ public class CartesianCoordinateTest {
 
     @Test
     public void testGetDistanceWithNegativeCoordinates() {
-        CartesianCoordinate newCoordinate = new CartesianCoordinate(-1, -2, -1);
+        CartesianCoordinate newCoordinate = CartesianCoordinate.getCoordinate(-1, -2, -1);
         double distance = coordinate.getCartesianDistance(newCoordinate);
 
         Assert.assertEquals(6, distance, 0.0);
@@ -32,7 +32,7 @@ public class CartesianCoordinateTest {
 
     @Test
     public void testGetDistanceWithEqualCoordinates() {
-        CartesianCoordinate newCoordinate = new CartesianCoordinate(1, 2, 3);
+        CartesianCoordinate newCoordinate = CartesianCoordinate.getCoordinate(1, 2, 3);
         double distance = coordinate.getCartesianDistance(newCoordinate);
 
         Assert.assertEquals(0, distance, 0.0);
@@ -40,28 +40,28 @@ public class CartesianCoordinateTest {
 
     @Test
     public void testEqualsWithEqualCoordinates() {
-        CartesianCoordinate equalCoordinate = new CartesianCoordinate(1, 2, 3);
+        CartesianCoordinate equalCoordinate = CartesianCoordinate.getCoordinate(1, 2, 3);
         boolean isEqual = coordinate.equals(equalCoordinate);
         Assert.assertTrue(isEqual);
     }
 
     @Test
     public void testEqualsWithDifferentCoordinates() {
-        CartesianCoordinate differentCoordinate = new CartesianCoordinate(1, 2, 4);
+        CartesianCoordinate differentCoordinate = CartesianCoordinate.getCoordinate(1, 2, 4);
         boolean isEqual = coordinate.equals(differentCoordinate);
         Assert.assertFalse(isEqual);
     }
 
     @Test
     public void testEqualsWithDifferenceSmallerThanDelta() {
-        CartesianCoordinate differentCoordinate = new CartesianCoordinate(1, 2, 3.0000000009);
+        CartesianCoordinate differentCoordinate = CartesianCoordinate.getCoordinate(1, 2, 3.0000000009);
         boolean isEqual = coordinate.equals(differentCoordinate);
         Assert.assertTrue(isEqual);
     }
 
     @Test
     public void testEqualsWithDifferenceEqualsDelta() {
-        CartesianCoordinate differentCoordinate = new CartesianCoordinate(1, 2, 3.000000001);
+        CartesianCoordinate differentCoordinate = CartesianCoordinate.getCoordinate(1, 2, 3.000000001);
         boolean isEqual = coordinate.equals(differentCoordinate);
         Assert.assertFalse(isEqual);
     }
@@ -81,13 +81,13 @@ public class CartesianCoordinateTest {
 
     @Test
     public void testHashcodeWithEqualCoordinates() {
-        CartesianCoordinate differentCoordinate = new CartesianCoordinate(1, 2, 3);
+        CartesianCoordinate differentCoordinate = CartesianCoordinate.getCoordinate(1, 2, 3);
         Assert.assertEquals(coordinate.hashCode(), differentCoordinate.hashCode());
     }
 
     @Test
     public void testHashcodeWithDifferentCoordinates() {
-        CartesianCoordinate differentCoordinate = new CartesianCoordinate(1, 2, 4);
+        CartesianCoordinate differentCoordinate = CartesianCoordinate.getCoordinate(1, 2, 4);
         Assert.assertNotEquals(coordinate.hashCode(), differentCoordinate.hashCode());
     }
 
@@ -100,7 +100,7 @@ public class CartesianCoordinateTest {
 
     @Test
     public void testIsEqualWithDifferentCoordinateTypesFailed() {
-        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(2, 3, 4);
+        CartesianCoordinate cartesianCoordinate = CartesianCoordinate.getCoordinate(2, 3, 4);
         SphericalCoordinate sphericalCoordinate = coordinate.asSphericalCoordinate();
         boolean isEqual = cartesianCoordinate.equals(sphericalCoordinate);
         Assert.assertFalse(isEqual);
@@ -108,17 +108,17 @@ public class CartesianCoordinateTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testCartesianCoordinatesWithXIsNaN() {
-        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(Double.NaN, 0, 0);
+        CartesianCoordinate cartesianCoordinate = CartesianCoordinate.getCoordinate(Double.NaN, 0, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCartesianCoordinatesWithXYIsNaN() {
-        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(0, Double.NaN, 0);
+        CartesianCoordinate cartesianCoordinate = CartesianCoordinate.getCoordinate(0, Double.NaN, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCartesianCoordinatesWithZIsNaN() {
-        CartesianCoordinate cartesianCoordinate = new CartesianCoordinate(0, 0, Double.NaN);
+        CartesianCoordinate cartesianCoordinate = CartesianCoordinate.getCoordinate(0, 0, Double.NaN);
     }
 
     @Test(expected = IllegalArgumentException.class)

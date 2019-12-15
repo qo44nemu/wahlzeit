@@ -1,13 +1,17 @@
 package org.wahlzeit.model.coordinate;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class CartesianCoordinate extends AbstractCoordinate {
+
+    private static final HashMap<Integer, CartesianCoordinate> coordinates = new HashMap<>();
+
     private double x;
     private double y;
     private double z;
 
-    public CartesianCoordinate(double x, double y, double z) throws IllegalArgumentException {
+    private CartesianCoordinate(double x, double y, double z) throws IllegalArgumentException {
         assertIsNotNaN(x);
         assertIsNotNaN(y);
         assertIsNotNaN(z);
@@ -16,9 +20,18 @@ public class CartesianCoordinate extends AbstractCoordinate {
         this.z = z;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y, z);
+    public static CartesianCoordinate getCoordinate(double x, double y, double z) {
+        CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
+        Integer hashCode = coordinate.hashCode();
+        synchronized (coordinates) {
+            CartesianCoordinate existingCoordinate = coordinates.get(hashCode);
+            if (existingCoordinate == null) {
+                coordinates.put(coordinate.hashCode(), coordinate);
+                return coordinate;
+            } else {
+                return existingCoordinate;
+            }
+        }
     }
 
     @Override
@@ -31,7 +44,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
         double radius = Math.sqrt(Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2) + Math.pow(this.getZ(), 2));
         double theta = Math.acos(z / radius);
         double phi = Math.atan2(y, x);
-        return new SphericalCoordinate(phi, theta, radius);
+        return SphericalCoordinate.getCoordinate(phi, theta, radius);
     }
 
     @Override
@@ -73,4 +86,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
     private double getZ() {
         return z;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z);
+    }
+
 }

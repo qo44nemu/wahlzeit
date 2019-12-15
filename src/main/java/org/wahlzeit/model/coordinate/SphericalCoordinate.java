@@ -1,13 +1,17 @@
 package org.wahlzeit.model.coordinate;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class SphericalCoordinate extends AbstractCoordinate {
-    private double phi;
-    private double theta;
-    private double radius;
 
-    public SphericalCoordinate(double phi, double theta, double radius) throws IllegalArgumentException {
+    private static final HashMap<Integer, SphericalCoordinate> coordinates = new HashMap<>();
+
+    private final double phi;
+    private final double theta;
+    private final double radius;
+
+    private SphericalCoordinate(double phi, double theta, double radius) throws IllegalArgumentException {
         assertPhiIsValid(phi);
         assertThetaIsValid(theta);
         assertRadiusIsValid(radius);
@@ -16,13 +20,27 @@ public class SphericalCoordinate extends AbstractCoordinate {
         this.radius = radius;
     }
 
+    public static SphericalCoordinate getCoordinate(double phi, double theta, double radius){
+        SphericalCoordinate coordinate = new SphericalCoordinate(phi, theta, radius);
+        Integer hashCode = coordinate.hashCode();
+        synchronized (coordinates) {
+            SphericalCoordinate existingCoordinate = coordinates.get(hashCode);
+            if (existingCoordinate == null) {
+               coordinates.put(coordinate.hashCode(), coordinate);
+               return coordinate;
+            } else {
+                return existingCoordinate;
+            }
+        }
+    }
+
     @Override
     protected CartesianCoordinate doAsCartesianCoordinate() {
         double x = radius * Math.sin(theta) * Math.cos(phi);
         double y = radius * Math.sin(theta) * Math.sin(phi);
         double z = radius * Math.cos(theta);
 
-        return new CartesianCoordinate(x, y, z);
+        return CartesianCoordinate.getCoordinate(x, y, z);
     }
 
     @Override

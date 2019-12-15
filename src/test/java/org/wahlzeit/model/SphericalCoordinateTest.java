@@ -11,33 +11,33 @@ public class SphericalCoordinateTest {
 
     @Before
     public void setUp() {
-        coordinate = new SphericalCoordinate(Math.toRadians(45), Math.toRadians(45), 6360);
+        coordinate = SphericalCoordinate.getCoordinate(Math.toRadians(45), Math.toRadians(45), 6360);
     }
 
     @Test
     public void testEqualsWithEqualCoordinates() {
-        SphericalCoordinate equalCoordinate = new SphericalCoordinate(Math.toRadians(45), Math.toRadians(45), 6360);
+        SphericalCoordinate equalCoordinate = SphericalCoordinate.getCoordinate(Math.toRadians(45), Math.toRadians(45), 6360);
         boolean isEqual = coordinate.equals(equalCoordinate);
         Assert.assertTrue(isEqual);
     }
 
     @Test
     public void testEqualsWithDifferentCoordinates() {
-        SphericalCoordinate differentCoordinate = new SphericalCoordinate(Math.toRadians(46), Math.toRadians(45), 6360);
+        SphericalCoordinate differentCoordinate = SphericalCoordinate.getCoordinate(Math.toRadians(46), Math.toRadians(45), 6360);
         boolean isEqual = coordinate.equals(differentCoordinate);
         Assert.assertFalse(isEqual);
     }
 
     @Test
     public void testEqualsWithDifferenceSmallerThanDelta() {
-        SphericalCoordinate differentCoordinate = new SphericalCoordinate(Math.toRadians(45), Math.toRadians(45), 6360.0000000009);
+        SphericalCoordinate differentCoordinate = SphericalCoordinate.getCoordinate(Math.toRadians(45), Math.toRadians(45), 6360.0000000009);
         boolean isEqual = coordinate.equals(differentCoordinate);
         Assert.assertTrue(isEqual);
     }
 
     @Test
     public void testEqualsWithDifferenceEqualsDelta() {
-        SphericalCoordinate differentCoordinate = new SphericalCoordinate(Math.toRadians(45), Math.toRadians(45), 6360.000000001);
+        SphericalCoordinate differentCoordinate = SphericalCoordinate.getCoordinate(Math.toRadians(45), Math.toRadians(45), 6360.000000001);
         boolean isEqual = coordinate.equals(differentCoordinate);
         Assert.assertFalse(isEqual);
     }
@@ -57,13 +57,13 @@ public class SphericalCoordinateTest {
 
     @Test
     public void testHashcodeWithEqualCoordinates() {
-        SphericalCoordinate equalCoordinates = new SphericalCoordinate(Math.toRadians(45), Math.toRadians(45), 6360);
+        SphericalCoordinate equalCoordinates = SphericalCoordinate.getCoordinate(Math.toRadians(45), Math.toRadians(45), 6360);
         Assert.assertEquals(coordinate.hashCode(), equalCoordinates.hashCode());
     }
 
     @Test
     public void testHashcodeWithDifferentCoordinates() {
-        SphericalCoordinate differentCoordinate = new SphericalCoordinate(Math.toRadians(46), Math.toRadians(45), 6360);
+        SphericalCoordinate differentCoordinate = SphericalCoordinate.getCoordinate(Math.toRadians(46), Math.toRadians(45), 6360);
         Assert.assertNotEquals(coordinate.hashCode(), differentCoordinate.hashCode());
     }
 
@@ -76,7 +76,7 @@ public class SphericalCoordinateTest {
 
     @Test
     public void testIsEqualFailedWithInterchangeableCoordinateTypes() {
-        SphericalCoordinate sphericalCoordinate = new SphericalCoordinate(Math.toRadians(46), Math.toRadians(45), 6360);
+        SphericalCoordinate sphericalCoordinate = SphericalCoordinate.getCoordinate(Math.toRadians(46), Math.toRadians(45), 6360);
         CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
         boolean isEqual = cartesianCoordinate.equals(sphericalCoordinate);
         Assert.assertFalse(isEqual);
@@ -84,8 +84,8 @@ public class SphericalCoordinateTest {
 
     @Test
     public void testGetCentralAngle() {
-        SphericalCoordinate sphericalCoordinateBerlin = new SphericalCoordinate(Math.toRadians(52.517), Math.toRadians(13.40), 6360);
-        SphericalCoordinate sphericalCoordinateTokyo = new SphericalCoordinate(Math.toRadians(35.70), Math.toRadians(139.767), 6360);
+        SphericalCoordinate sphericalCoordinateBerlin = SphericalCoordinate.getCoordinate(Math.toRadians(52.517), Math.toRadians(13.40), 6360);
+        SphericalCoordinate sphericalCoordinateTokyo = SphericalCoordinate.getCoordinate(Math.toRadians(35.70), Math.toRadians(139.767), 6360);
 
         double centralAngle = sphericalCoordinateBerlin.getCentralAngle(sphericalCoordinateTokyo);
         Assert.assertEquals(1.40, centralAngle, 0.001);
@@ -93,19 +93,19 @@ public class SphericalCoordinateTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testSphericalCoordinateWithInvalidRadius() {
-        SphericalCoordinate sphericalCoordinateBerlin = new SphericalCoordinate(Math.toRadians(52.517), Math.toRadians(13.40), -1);
+        SphericalCoordinate sphericalCoordinateBerlin = SphericalCoordinate.getCoordinate(Math.toRadians(52.517), Math.toRadians(13.40), -1);
 
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSphericalCoordinateWithInvalidPhi() {
-        SphericalCoordinate sphericalCoordinateBerlin = new SphericalCoordinate(Math.PI * 3, Math.toRadians(13.40), 6360);
+        SphericalCoordinate sphericalCoordinateBerlin = SphericalCoordinate.getCoordinate(Math.PI * 3, Math.toRadians(13.40), 6360);
 
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSphericalCoordinateWithInvalidTheta() {
-        SphericalCoordinate sphericalCoordinateBerlin = new SphericalCoordinate(Math.toRadians(52.517), Math.PI * 2, 6360);
+        SphericalCoordinate sphericalCoordinateBerlin = SphericalCoordinate.getCoordinate(Math.toRadians(52.517), Math.PI * 2, 6360);
     }
 
     @Test(expected = IllegalArgumentException.class)
