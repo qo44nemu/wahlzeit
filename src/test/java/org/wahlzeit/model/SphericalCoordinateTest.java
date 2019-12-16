@@ -1,9 +1,11 @@
 package org.wahlzeit.model;
 
+import net.bytebuddy.build.ToStringPlugin;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.wahlzeit.model.coordinate.CartesianCoordinate;
+import org.wahlzeit.model.coordinate.ICoordinate;
 import org.wahlzeit.model.coordinate.SphericalCoordinate;
 
 public class SphericalCoordinateTest {
@@ -111,5 +113,19 @@ public class SphericalCoordinateTest {
     @Test(expected = IllegalArgumentException.class)
     public void testGetCentralAngelWithNull() {
         coordinate.getCentralAngle(null);
+    }
+
+    @Test
+    public void testInterchangeabilityWithValueObjectPattern(){
+        ICoordinate coordinate = SphericalCoordinate.getCoordinate(Math.toRadians(45), Math.toRadians(45), 6360);
+        ICoordinate coordinate2 = SphericalCoordinate.getCoordinate(Math.toRadians(45), Math.toRadians(45), 6360);
+
+        // Konvertieren zwischen den Koordinatenimplementationen erzeugt keine unnötigen Objekte
+        coordinate = coordinate.asCartesianCoordinate();
+        coordinate = coordinate.asSphericalCoordinate();
+        coordinate = coordinate.asCartesianCoordinate();
+        coordinate = coordinate.asSphericalCoordinate();
+        coordinate = coordinate.asCartesianCoordinate();
+        Assert.assertEquals(coordinate, coordinate2.asCartesianCoordinate());
     }
 }
