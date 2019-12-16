@@ -20,17 +20,15 @@ public class SphericalCoordinate extends AbstractCoordinate {
         this.radius = radius;
     }
 
-    public static SphericalCoordinate getCoordinate(double phi, double theta, double radius){
+    public static SphericalCoordinate getCoordinate(double phi, double theta, double radius) {
         SphericalCoordinate coordinate = new SphericalCoordinate(phi, theta, radius);
         Integer hashCode = coordinate.hashCode();
-        synchronized (coordinates) {
-            SphericalCoordinate existingCoordinate = coordinates.get(hashCode);
-            if (existingCoordinate == null) {
-               coordinates.put(coordinate.hashCode(), coordinate);
-               return coordinate;
-            } else {
-                return existingCoordinate;
-            }
+        SphericalCoordinate existingCoordinate = coordinates.get(hashCode);
+        if (existingCoordinate == null) {
+            coordinates.put(coordinate.hashCode(), coordinate);
+            return coordinate;
+        } else {
+            return existingCoordinate;
         }
     }
 

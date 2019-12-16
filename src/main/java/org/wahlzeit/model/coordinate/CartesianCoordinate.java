@@ -23,7 +23,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
     public static CartesianCoordinate getCoordinate(double x, double y, double z) {
         CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
         Integer hashCode = coordinate.hashCode();
-        synchronized (coordinates) {
             CartesianCoordinate existingCoordinate = coordinates.get(hashCode);
             if (existingCoordinate == null) {
                 coordinates.put(coordinate.hashCode(), coordinate);
@@ -31,7 +30,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
             } else {
                 return existingCoordinate;
             }
-        }
     }
 
     @Override
