@@ -7,9 +7,9 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
     private static final HashMap<Integer, CartesianCoordinate> coordinates = new HashMap<>();
 
-    private double x;
-    private double y;
-    private double z;
+    private final double x;
+    private final double y;
+    private final double z;
 
     private CartesianCoordinate(double x, double y, double z) throws IllegalArgumentException {
         assertIsNotNaN(x);
@@ -20,16 +20,16 @@ public class CartesianCoordinate extends AbstractCoordinate {
         this.z = z;
     }
 
-    public static CartesianCoordinate getCoordinate(double x, double y, double z) {
-        CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
-        Integer hashCode = coordinate.hashCode();
-            CartesianCoordinate existingCoordinate = coordinates.get(hashCode);
-            if (existingCoordinate == null) {
-                coordinates.put(coordinate.hashCode(), coordinate);
-                return coordinate;
-            } else {
-                return existingCoordinate;
-            }
+    public static synchronized CartesianCoordinate getCoordinate(double x, double y, double z) {
+        Integer hashCode = Objects.hash(x, y, z);
+        CartesianCoordinate existingCoordinate = coordinates.get(hashCode);
+        if (existingCoordinate == null) {
+            CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
+            coordinates.put(hashCode, coordinate);
+            return coordinate;
+        } else {
+            return existingCoordinate;
+        }
     }
 
     @Override
