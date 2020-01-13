@@ -1,8 +1,14 @@
 package org.wahlzeit.model.coordinate;
 
+import org.wahlzeit.model.soccer.PatternInstance;
+
 import java.util.HashMap;
 import java.util.Objects;
 
+@PatternInstance(
+        patternName = "ObjectValue",
+        participants = {"CartesianCoordinate"   }
+)
 public class CartesianCoordinate extends AbstractCoordinate {
 
     private static final HashMap<Integer, CartesianCoordinate> coordinates = new HashMap<>();

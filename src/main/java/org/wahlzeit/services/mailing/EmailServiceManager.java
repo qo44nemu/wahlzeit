@@ -77,7 +77,7 @@ public class EmailServiceManager {
 			defaultService = new SmtpEmailService();
 		} else {
 			defaultService = new LoggingEmailService(new MockEmailService());
-		}
+	}
 	}
 
 	/**
