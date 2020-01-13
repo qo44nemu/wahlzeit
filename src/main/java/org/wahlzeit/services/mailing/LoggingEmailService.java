@@ -20,7 +20,7 @@
 
 package org.wahlzeit.services.mailing;
 
-import org.wahlzeit.model.soccer.PatternInstance;
+import org.wahlzeit.PatternInstance;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.LogBuilder;
 

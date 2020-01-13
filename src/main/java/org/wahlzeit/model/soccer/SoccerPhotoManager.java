@@ -1,5 +1,6 @@
 package org.wahlzeit.model.soccer;
 
+import org.wahlzeit.PatternInstance;
 import org.wahlzeit.model.PhotoManager;
 
 @PatternInstance(

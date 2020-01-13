@@ -1,4 +1,4 @@
-package org.wahlzeit.model.soccer;
+package org.wahlzeit;
 
 public @interface PatternInstance {
     String patternName();

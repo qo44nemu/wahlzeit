@@ -1,6 +1,6 @@
 package org.wahlzeit.model.coordinate;
 
-import org.wahlzeit.model.soccer.PatternInstance;
+import org.wahlzeit.PatternInstance;
 
 import java.util.HashMap;
 import java.util.Objects;

@@ -20,7 +20,7 @@
 
 package org.wahlzeit.model;
 
-import org.wahlzeit.model.soccer.PatternInstance;
+import org.wahlzeit.PatternInstance;
 import org.wahlzeit.services.LogBuilder;
 
 import java.util.logging.Logger;
