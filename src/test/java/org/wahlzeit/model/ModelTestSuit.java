@@ -14,6 +14,9 @@ import org.wahlzeit.model.persistence.DatastoreAdapterTest;
         GenderTest.class,
         GuestTest.class,
         PhotoFilterTest.class,
+        SoccerClubManagerTest.class,
+        SoccerClubTypeTest.class,
+        SoccerPhotoFactoryTest.class,
         TagsTest.class,
         UserStatusTest.class,})
 public class ModelTestSuit {

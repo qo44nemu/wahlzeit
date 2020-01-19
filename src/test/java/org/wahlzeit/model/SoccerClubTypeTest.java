@@ -28,10 +28,26 @@ public class SoccerClubTypeTest {
     }
 
     @Test
-    public void testIsSubtypeOf(){
+    public void testIsSubtypeOf() {
         Assert.assertTrue(bayernMuenchen.isSubtypeOf(bundesliga));
         Assert.assertTrue(bayernMuenchen.isSubtypeOf(dfl));
         Assert.assertTrue(bundesliga.isSubtypeOf(dfl));
 
+        Assert.assertTrue(barcelona.isSubtypeOf(primeraDivision));
+        Assert.assertTrue(barcelona.isSubtypeOf(rfef));
+        Assert.assertTrue(primeraDivision.isSubtypeOf(rfef));
+
+        Assert.assertFalse(bayernMuenchen.isSubtypeOf(primeraDivision));
+        Assert.assertFalse(bayernMuenchen.isSubtypeOf(rfef));
+
+        Assert.assertFalse(barcelona.isSubtypeOf(bundesliga));
+        Assert.assertFalse(barcelona.isSubtypeOf(dfl));
+    }
+
+    @Test
+    public void testAttributes() {
+        Assert.assertEquals(bayernMuenchen.getName(), "FC Bayern München");
+        Assert.assertEquals(bayernMuenchen.getYearOfFoundation(), 1900);
+        Assert.assertEquals(bayernMuenchen.getSuperType(), bundesliga);
     }
 }
