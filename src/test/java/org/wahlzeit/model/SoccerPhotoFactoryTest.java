@@ -6,8 +6,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
-import org.wahlzeit.model.soccer.SoccerPhoto;
-import org.wahlzeit.model.soccer.SoccerPhotoFactory;
+import org.wahlzeit.model.soccer.*;
 import org.wahlzeit.testEnvironmentProvider.*;
 
 public class SoccerPhotoFactoryTest {
@@ -51,13 +50,16 @@ public class SoccerPhotoFactoryTest {
 
     @Test
     public void testCreateSoccerPhoto() {
+        SoccerClubManager manager = SoccerClubManager.getInstance();
+        manager.addSoccerClubType(new SoccerClubType("TestClub", 2020));
+
         SoccerPhotoFactory factory = SoccerPhotoFactory.getInstance();
         PhotoId id = new PhotoId(12);
         String forename = "forename";
         String surname = "surname";
-        String club = "club";
+        SoccerClub club =  manager.createSoccerClub("TestClub");
 
-        SoccerPhoto photo = factory.createPhoto(id, forename, surname, club);
+        SoccerPhoto photo = factory.createPhoto(id, forename, surname, club );
         Assert.assertEquals(id, photo.getId());
         Assert.assertEquals(forename, photo.getForename());
         Assert.assertEquals(surname, photo.getSurname());

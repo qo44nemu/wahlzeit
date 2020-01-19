@@ -9,7 +9,7 @@ import org.wahlzeit.model.PhotoId;
 public class SoccerPhoto extends Photo {
     private String forename;
     private String surname;
-    private String club;
+    private SoccerClub club;
     private Location location;
 
     public SoccerPhoto() {
@@ -20,14 +20,14 @@ public class SoccerPhoto extends Photo {
         super(id);
     }
 
-    public SoccerPhoto(PhotoId id, String forename, String surname, String club) throws IllegalArgumentException {
+    public SoccerPhoto(PhotoId id, String forename, String surname, SoccerClub club) throws IllegalArgumentException {
         super(id);
         assertStringNotNullNotEmpty(forename);
         assertStringNotNullNotEmpty(surname);
-        assertStringNotNullNotEmpty(club);
+        setClub(club);
         this.forename = forename;
         this.surname = surname;
-        this.club = club;
+
     }
 
     public String getForename() {
@@ -48,12 +48,14 @@ public class SoccerPhoto extends Photo {
         this.surname = surname;
     }
 
-    public String getClub() {
+    public SoccerClub getClub() {
         return club;
     }
 
-    public void setClub(String club) throws IllegalArgumentException {
-        assertStringNotNullNotEmpty(club);
+    public void setClub(SoccerClub club) throws IllegalArgumentException {
+        if (club == null) {
+            throw new IllegalArgumentException("SoccerClub can not be null!");
+        }
         this.club = club;
     }
 
@@ -70,7 +72,7 @@ public class SoccerPhoto extends Photo {
 
     private void assertStringNotNullNotEmpty(String value) {
         if (value == null) {
-            throw new IllegalArgumentException("String ");
+            throw new IllegalArgumentException("String can not be null!");
         }
 
     }
