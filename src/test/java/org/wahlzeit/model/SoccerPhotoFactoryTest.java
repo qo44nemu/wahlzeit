@@ -50,19 +50,14 @@ public class SoccerPhotoFactoryTest {
 
     @Test
     public void testCreateSoccerPhoto() {
-        SoccerClubManager manager = SoccerClubManager.getInstance();
-        manager.addSoccerClubType(new SoccerClubType("TestClub", 2020));
-
         SoccerPhotoFactory factory = SoccerPhotoFactory.getInstance();
         PhotoId id = new PhotoId(12);
         String forename = "forename";
         String surname = "surname";
-        SoccerClub club =  manager.createSoccerClub("TestClub");
 
-        SoccerPhoto photo = factory.createPhoto(id, forename, surname, club );
+        SoccerPhoto photo = factory.createPhoto(id, forename, surname);
         Assert.assertEquals(id, photo.getId());
         Assert.assertEquals(forename, photo.getForename());
         Assert.assertEquals(surname, photo.getSurname());
-        Assert.assertEquals(club, photo.getClub());
     }
 }

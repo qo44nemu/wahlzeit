@@ -1,10 +1,8 @@
 package org.wahlzeit.model.soccer;
 
-import org.wahlzeit.services.DataObject;
-
 import java.util.UUID;
 
-public class SoccerClub  {
+public class SoccerClub {
     private SoccerClubType type;
     private String id;
 
@@ -17,7 +15,7 @@ public class SoccerClub  {
         return type;
     }
 
-    public String  getId() {
+    public String getId() {
         return id;
     }
 }

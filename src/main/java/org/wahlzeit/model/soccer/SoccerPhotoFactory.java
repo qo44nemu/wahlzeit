@@ -62,7 +62,7 @@ public class SoccerPhotoFactory extends PhotoFactory {
         return new SoccerPhoto(id);
     }
 
-    public SoccerPhoto createPhoto(PhotoId id, String forename, String surname, SoccerClub club) {
-        return new SoccerPhoto(id, forename, surname, club);
+    public SoccerPhoto createPhoto(PhotoId id, String forename, String surname) {
+        return new SoccerPhoto(id, forename, surname);
     }
 }

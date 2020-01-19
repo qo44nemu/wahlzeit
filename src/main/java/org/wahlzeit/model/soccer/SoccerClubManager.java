@@ -31,7 +31,7 @@ public class SoccerClubManager {
     }
 
     private void assertIsValidClubName(String typeName) {
-        if (!clubs.containsKey(typeName)) {
+        if (!clubTypes.containsKey(typeName)) {
             throw new IllegalArgumentException("Invalid SoccerClubType name");
         }
     }

@@ -20,11 +20,10 @@ public class SoccerPhoto extends Photo {
         super(id);
     }
 
-    public SoccerPhoto(PhotoId id, String forename, String surname, SoccerClub club) throws IllegalArgumentException {
+    public SoccerPhoto(PhotoId id, String forename, String surname) throws IllegalArgumentException {
         super(id);
         assertStringNotNullNotEmpty(forename);
         assertStringNotNullNotEmpty(surname);
-        setClub(club);
         this.forename = forename;
         this.surname = surname;
 
