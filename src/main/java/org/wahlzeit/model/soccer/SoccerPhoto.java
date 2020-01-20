@@ -1,6 +1,7 @@
 package org.wahlzeit.model.soccer;
 
 import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Ignore;
 import org.wahlzeit.model.Location;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoId;
@@ -9,6 +10,7 @@ import org.wahlzeit.model.PhotoId;
 public class SoccerPhoto extends Photo {
     private String forename;
     private String surname;
+    @Ignore
     private SoccerClub club;
     private Location location;
 
